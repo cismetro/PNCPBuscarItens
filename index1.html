@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNCP - Simulador de Busca</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'gov-blue': '#071D41',
+                        'gov-yellow': '#FFCD07'
+                    }
+                }
+            }
+        }
+
+        // Check for dark mode
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        
+        .dark .bg-white {
+            background-color: #181818;
+            color: #f3f4f6;
+        }
+        
+        .dark .bg-gray-100 {
+            background-color: #222222;
+            color: #f3f4f6;
+        }
+        
+        .dark .border-gray-200 {
+            border-color: #333333;
+        }
+        
+        .dark .text-gray-600,
+        .dark .text-gray-700,
+        .dark .text-gray-800 {
+            color: #d1d5db;
+        }
+        
+        .dark .shadow-md {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen">
+    <header class="bg-gov-blue text-white p-4 shadow-md">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <div class="mr-2 bg-gov-yellow text-gov-blue font-bold px-2 py-1 rounded">
+                    GOV.BR
+                </div>
+                <h1 class="text-xl font-bold">Portal Nacional de Contratações Públicas - PNCP</h1>
+            </div>
+            <nav class="flex space-x-4">
+                <a href="#" class="hover:underline">Início</a>
+                <a href="#" class="hover:underline">Contratações</a>
+                <a href="#" class="hover:underline">Ajuda</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto py-8 px-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Pesquisar Contratações Públicas</h2>
+            <div class="mb-6">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-grow">
+                        <input type="text" id="search-input" value="extensão 5 metros" class="w-full px-4 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Digite sua pesquisa...">
+                    </div>
+                    <button id="search-button" class="bg-primary hover:bg-opacity-90 text-white font-medium py-2 px-6 rounded-md transition duration-200">
+                        Pesquisar
+                    </button>
+                </div>
+                <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                    Pesquise em editais, contratos, atas de registro de preços e outros documentos.
+                </div>
+            </div>
+            
+            <div id="search-results" class="hidden">
+                <div class="border-t border-gray-200 pt-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Resultados da pesquisa para "extensão 5 metros"</h3>
+                        <span class="text-sm text-gray-600 dark:text-gray-400">15 resultados encontrados</span>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <!-- Resultado 1 -->
+                        <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                            <div class="flex justify-between">
+                                <h4 class="text-primary font-medium mb-1">Aquisição de Extensão Elétrica 5 Metros</h4>
+                                <span class="text-sm bg-green-100 text-green-800 py-1 px-2 rounded-full dark:bg-green-900 dark:text-green-100">Ativo</span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Pregão Eletrônico para aquisição de extensões elétricas de 5 metros para atender às necessidades do Ministério da Educação.</p>
+                            <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Ministério da Educação</span>
+                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">UASG: 150002</span>
+                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Modalidade: Pregão Eletrônico</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="text-sm">
+                                    <span class="font-semibold">Publicado:</span> 10/02/2025
+                                </div>
+                                <a href="#" class="text-primary hover:underline text-sm">Ver detalhes</a>
+                            </div>
+                        </div>
+
+                        <!-- Resultado 2 -->
+                        <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                            <div class="flex justify-between">
+                                <h4 class="text-primary font-medium mb-1">Contrato nº 2025/123 - Extensão Cabos USB 5 Metros</h4>
+                                <span class="text-sm bg-blue-100 text-blue-800 py-1 px-2 rounded-full dark:bg-blue-900 dark:text-blue-100">Concluído</span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Contrato para fornecimento de cabos USB com extensão de 5 metros para equipamentos de informática do Tribunal Regional Federal.</p>
+                            <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Tribunal Regional Federal da 3ª Região</span>
+                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">UASG: 090029</span>
+                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Valor: R$ 12.450,00</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="text-sm">
+                                    <span class="font-semibold">Assinado:</span> 15/01/2025
+                                </div>
+                                <a href="#" class="text-primary hover:underline text-sm">Ver detalhes</a>
+                            </div>
+                        </div>
+
+                        <!-- Resultado 3 -->
+                        <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                            <div class="flex justify-between">
+                                <h4 class="text-primary font-medium mb-1">Ata de Registro de Preços - Extensões Elétricas 5 Metros</h4>
+                                <span class="text-sm bg-yellow-100 text-yellow-800 py-1 px-2 rounded-full dark:bg-yellow-900 dark:text-yellow-100">Vigente</span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Ata de Registro de Preços para aquisição de extensões elétricas com 5 metros, cabos PP 3x2,5mm², tomadas 2P+T para a Prefeitura Municipal de São Paulo.</p>
+                            <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Prefeitura Municipal de São Paulo</span>
+                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">CNPJ: 05.499.789/0001-98</span>
+                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Validade: 12 meses</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="text-sm">
+                                    <span class="font-semibold">Vigência:</span> 20/01/2025 a 20/01/2026
+                                </div>
+                                <a href="#" class="text-primary hover:underline text-sm">Ver detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-center">
+                        <nav class="inline-flex rounded-md shadow-sm" aria-label="Paginação">
+                            <a href="#" class="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-gray-600">Anterior</a>
+                            <a href="#" class="px-3 py-2 bg-primary text-white border border-primary">1</a>
+                            <a href="#" class="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">2</a>
+                            <a href="#" class="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">3</a>
+                            <a href="#" class="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 rounded-r-md hover:bg-gray-50 dark:hover:bg-gray-600">Próxima</a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="loading-state" class="hidden text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                <p class="mt-4 text-lg text-gray-700 dark:text-gray-300 loading-dots">Buscando resultados</p>
+            </div>
+            
+            <div id="initial-state" class="text-center py-8">
+                <svg class="mx-auto h-20 w-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <p class="mt-4 text-lg text-gray-700 dark:text-gray-300">Digite uma palavra-chave e clique em Pesquisar</p>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Sobre o PNCP</h2>
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+                O Portal Nacional de Contratações Públicas (PNCP) é o site oficial em que estão publicadas informações sobre as contratações públicas, criado por uma determinação da Nova Lei de Licitações e Contratos Administrativos (Lei nº 14.133/2021) para manter a transparência.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+                O PNCP é administrado pelo Comitê Gestor da Rede Nacional de Contratações Públicas e garante que os dados de todas as contratações feitas pela União e por governos estaduais e municipais estarão centralizados aqui e disponíveis a todos.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                <a href="#" class="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-150">
+                    <div class="mr-4 bg-primary bg-opacity-10 p-3 rounded-full">
+                        <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-800 dark:text-white">Plano de Contratações Anual</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Consulte as compras e contratos planejados</p>
+                    </div>
+                </a>
+                <a href="#" class="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-150">
+                    <div class="mr-4 bg-primary bg-opacity-10 p-3 rounded-full">
+                        <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-800 dark:text-white">Painel PNCP em Números</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Estatísticas das contratações públicas</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gov-blue text-white py-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="mr-2 bg-gov-yellow text-gov-blue font-bold px-2 py-1 rounded">
+                        GOV.BR
+                    </div>
+                    <span class="text-sm">Portal Nacional de Contratações Públicas</span>
+                </div>
+                <div class="text-sm">
+                    <p>© 2025 Governo Federal - Todos os direitos reservados</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchButton = document.getElementById('search-button');
+            const searchInput = document.getElementById('search-input');
+            const initialState = document.getElementById('initial-state');
+            const loadingState = document.getElementById('loading-state');
+            const searchResults = document.getElementById('search-results');
+            
+            searchButton.addEventListener('click', function() {
+                const searchTerm = searchInput.value.trim();
+                
+                if (searchTerm) {
+                    initialState.style.display = 'none';
+                    loadingState.style.display = 'block';
+                    searchResults.style.display = 'none';
+                    
+                    // Simula o tempo de busca
+                    setTimeout(function() {
+                        loadingState.style.display = 'none';
+                        searchResults.style.display = 'block';
+                    }, 1500);
+                }
+            });
+            
+            // Se já tiver um valor no input, simular clique no botão
+            if (searchInput.value.trim()) {
+                searchButton.click();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+https://pncpbuscaritens.netlify.app/
+A pesquisa será baseada na palavra chave
+Clicar no botão acessar
+
+CRITÉRIOS PARA PESQUISA
+NÃO DIFERENCIAR MAIÚSCULAS DE MINÚSCULAS (NAO ATIVAR)
+COINCIDIR PALAVRA ITEIRA (NAO ATIVAR)
+DIACRITICOS CORRESPONDENTES (NAO ATIVAR)
+
+
+1 - exibir itens no numero máximo disponivel
+/html/body/app-root/div/main/div/div/div[2]/div/pncp-list/pncp-results-panel/pncp-tab-set/div/div/div/pncp-pagination/nav/ul/li[4]/pncp-select/ng-select/div/div/div[3]
+
+
+
+Depois...
+Clicar no Edital 1 / buscar pela palavra chave / filtrar / trazer as informações - /html/body/app-root/div/main/div/div/div[2]/div/pncp-list/pncp-results-panel/pncp-tab-set/div/pncp-tab[1]/div/div[2]/div/div[2]/pncp-items-list/div/div[1]/a/div/div[1]/div
+2 - exibir itens no numero máximo disponivel -  //*[@id="aec6ba165e8a-0"] 
+/html/body/app-root/div/main/div/div/div[2]/div/pncp-item-detail/div/pncp-tab-set/div/pncp-tab[1]/div/div/pncp-table/div/ngx-datatable/div/datatable-footer/div/pncp-pagination-table/div/div[1]/pncp-select/div[2]/ng-select/div/div/div[3]
+
+busca pela palavra chave / filtrar / trazer as informações
+
+
+
+Depois...
+Clicar no Edital 2 / buscar pela palavra chave / filtrar / trazer as informações - /html/body/app-root/div/main/div/div/div[2]/div/pncp-list/pncp-results-panel/pncp-tab-set/div/pncp-tab[1]/div/div[2]/div/div[2]/pncp-items-list/div/div[2]/a/div/div[1]/div
+2 - exibir itens no numero máximo disponivel - //*[@id="aec6ba165e8a-0"]
+/html/body/app-root/div/main/div/div/div[2]/div/pncp-item-detail/div/pncp-tab-set/div/pncp-tab[1]/div/div/pncp-table/div/ngx-datatable/div/datatable-footer/div/pncp-pagination-table/div/div[1]/pncp-select/div[2]/ng-select/div/div/div[3]
+busca pela palavra chave / filtrar / trazer as informações
+
+
+
+Depois...
+Clicar no Edital 3 / buscar pela palavra chave / filtrar / trazer as informações - /html/body/app-root/div/main/div/div/div[2]/div/pncp-list/pncp-results-panel/pncp-tab-set/div/pncp-tab[1]/div/div[2]/div/div[2]/pncp-items-list/div/div[3]/a/div/div[1]/div
+2 - exibir itens no numero máximo disponivel //*[@id="aec6ba165e8a-0"]
+/html/body/app-root/div/main/div/div/div[2]/div/pncp-item-detail/div/pncp-tab-set/div/pncp-tab[1]/div/div/pncp-table/div/ngx-datatable/div/datatable-footer/div/pncp-pagination-table/div/div[1]/pncp-select/div[2]/ng-select/div/div/div[3]
+busca pela palavra chave / filtrar / trazer as informações
+
+e assim sucessivamente...
+lembrando de dar pausa entra um edital e outro...
+
+
+obs: notado a diferenca aqui list/div/div[1] list/div/div[2] list/div/div[3]
+Exelente para escolher apenas tres cidades diferentes.
+
+
