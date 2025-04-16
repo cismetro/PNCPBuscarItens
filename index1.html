@@ -71,6 +71,18 @@
         .dark .shadow-md {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
         }
+
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+
+        .chart-bar {
+            transition: height 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 min-h-screen">
@@ -83,157 +95,497 @@
                 <h1 class="text-xl font-bold">Portal Nacional de Contratações Públicas - PNCP</h1>
             </div>
             <nav class="flex space-x-4">
-                <a href="#" class="hover:underline">Início</a>
-                <a href="#" class="hover:underline">Contratações</a>
-                <a href="#" class="hover:underline">Ajuda</a>
+                <a href="#" id="nav-home" class="nav-link active hover:underline">Início</a>
+                <a href="#" id="nav-contracts" class="nav-link hover:underline">Contratações</a>
+                <a href="#" id="nav-help" class="nav-link hover:underline">Ajuda</a>
             </nav>
         </div>
     </header>
 
     <main class="container mx-auto py-8 px-4">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Pesquisar Contratações Públicas</h2>
-            <div class="mb-6">
-                <div class="flex flex-col md:flex-row gap-4">
-                    <div class="flex-grow">
-                        <input type="text" id="search-input" value="extensão 5 metros" class="w-full px-4 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Digite sua pesquisa...">
+        <!-- Seção de Busca: é o inicial por padrão -->
+        <section id="section-home" class="section active">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Pesquisar Contratações Públicas</h2>
+                <div class="mb-6">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-grow">
+                            <input type="text" id="search-input" value="extensão 5 metros" class="w-full px-4 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Digite sua pesquisa...">
+                        </div>
+                        <button id="search-button" class="bg-primary hover:bg-opacity-90 text-white font-medium py-2 px-6 rounded-md transition duration-200">
+                            Pesquisar
+                        </button>
                     </div>
-                    <button id="search-button" class="bg-primary hover:bg-opacity-90 text-white font-medium py-2 px-6 rounded-md transition duration-200">
-                        Pesquisar
+                    <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                        Pesquise em editais, contratos, atas de registro de preços e outros documentos.
+                    </div>
+                </div>
+                
+                <div id="search-results" class="hidden">
+                    <div class="border-t border-gray-200 pt-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 id="search-results-title" class="text-lg font-semibold text-gray-800 dark:text-white">Resultados da pesquisa para "extensão 5 metros"</h3>
+                            <span id="results-count" class="text-sm text-gray-600 dark:text-gray-400">15 resultados encontrados</span>
+                        </div>
+                        
+                        <div id="results-page-1" class="results-page space-y-6">
+                            <!-- Resultado 1 -->
+                            <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                                <div class="flex justify-between">
+                                    <h4 class="text-primary font-medium mb-1">Aquisição de Extensão Elétrica 5 Metros</h4>
+                                    <span class="text-sm bg-green-100 text-green-800 py-1 px-2 rounded-full dark:bg-green-900 dark:text-green-100">Ativo</span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Pregão Eletrônico para aquisição de extensões elétricas de 5 metros para atender às necessidades do Ministério da Educação.</p>
+                                <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Ministério da Educação</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">UASG: 150002</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Modalidade: Pregão Eletrônico</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm">
+                                        <span class="font-semibold">Publicado:</span> 10/02/2025
+                                    </div>
+                                    <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="1" data-title="Aquisição de Extensão Elétrica 5 Metros">Ver detalhes</a>
+                                </div>
+                            </div>
+
+                            <!-- Resultado 2 -->
+                            <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                                <div class="flex justify-between">
+                                    <h4 class="text-primary font-medium mb-1">Contrato nº 2025/123 - Extensão Cabos USB 5 Metros</h4>
+                                    <span class="text-sm bg-blue-100 text-blue-800 py-1 px-2 rounded-full dark:bg-blue-900 dark:text-blue-100">Concluído</span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Contrato para fornecimento de cabos USB com extensão de 5 metros para equipamentos de informática do Tribunal Regional Federal.</p>
+                                <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Tribunal Regional Federal da 3ª Região</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">UASG: 090029</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Valor: R$ 12.450,00</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm">
+                                        <span class="font-semibold">Assinado:</span> 15/01/2025
+                                    </div>
+                                    <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="2" data-title="Contrato nº 2025/123 - Extensão Cabos USB 5 Metros">Ver detalhes</a>
+                                </div>
+                            </div>
+
+                            <!-- Resultado 3 -->
+                            <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                                <div class="flex justify-between">
+                                    <h4 class="text-primary font-medium mb-1">Ata de Registro de Preços - Extensões Elétricas 5 Metros</h4>
+                                    <span class="text-sm bg-yellow-100 text-yellow-800 py-1 px-2 rounded-full dark:bg-yellow-900 dark:text-yellow-100">Vigente</span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Ata de Registro de Preços para aquisição de extensões elétricas com 5 metros, cabos PP 3x2,5mm², tomadas 2P+T para a Prefeitura Municipal de São Paulo.</p>
+                                <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Prefeitura Municipal de São Paulo</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">CNPJ: 05.499.789/0001-98</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Validade: 12 meses</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm">
+                                        <span class="font-semibold">Vigência:</span> 20/01/2025 a 20/01/2026
+                                    </div>
+                                    <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="3" data-title="Ata de Registro de Preços - Extensões Elétricas 5 Metros">Ver detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Página 2 de resultados -->
+                        <div id="results-page-2" class="results-page space-y-6 hidden">
+                            <!-- Resultado 4 -->
+                            <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                                <div class="flex justify-between">
+                                    <h4 class="text-primary font-medium mb-1">Cabo de Extensão 5 Metros para Projetores</h4>
+                                    <span class="text-sm bg-green-100 text-green-800 py-1 px-2 rounded-full dark:bg-green-900 dark:text-green-100">Ativo</span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Licitação para aquisição de cabos de extensão HDMI de 5 metros para uso em salas de reunião do Ministério da Infraestrutura.</p>
+                                <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Ministério da Infraestrutura</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">UASG: 330010</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Modalidade: Dispensa</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm">
+                                        <span class="font-semibold">Publicado:</span> 05/01/2025
+                                    </div>
+                                    <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="4" data-title="Cabo de Extensão 5 Metros para Projetores">Ver detalhes</a>
+                                </div>
+                            </div>
+
+                            <!-- Resultado 5 -->
+                            <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                                <div class="flex justify-between">
+                                    <h4 class="text-primary font-medium mb-1">Extensão Retrátil 5 Metros - Hospitais</h4>
+                                    <span class="text-sm bg-green-100 text-green-800 py-1 px-2 rounded-full dark:bg-green-900 dark:text-green-100">Ativo</span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Aquisição de extensões elétricas retráteis de 5 metros para equipamentos médicos nos hospitais da rede pública estadual.</p>
+                                <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Secretaria de Saúde do Estado de MG</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">CNPJ: 18.715.516/0001-88</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Valor: R$ 98.750,00</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm">
+                                        <span class="font-semibold">Publicado:</span> 18/12/2024
+                                    </div>
+                                    <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="5" data-title="Extensão Retrátil 5 Metros - Hospitais">Ver detalhes</a>
+                                </div>
+                            </div>
+
+                            <!-- Resultado 6 -->
+                            <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                                <div class="flex justify-between">
+                                    <h4 class="text-primary font-medium mb-1">Suporte para Extensão Elétrica 5 Metros</h4>
+                                    <span class="text-sm bg-blue-100 text-blue-800 py-1 px-2 rounded-full dark:bg-blue-900 dark:text-blue-100">Concluído</span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Aquisição de suportes para organização de extensões elétricas de 5 metros para uso nos laboratórios da Universidade Federal.</p>
+                                <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Universidade Federal de Santa Catarina</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">UASG: 153163</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Modalidade: Pregão</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm">
+                                        <span class="font-semibold">Assinado:</span> 05/11/2024
+                                    </div>
+                                    <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="6" data-title="Suporte para Extensão Elétrica 5 Metros">Ver detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Página 3 de resultados -->
+                        <div id="results-page-3" class="results-page space-y-6 hidden">
+                            <!-- Resultado 7 -->
+                            <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                                <div class="flex justify-between">
+                                    <h4 class="text-primary font-medium mb-1">Extensão para Microfone 5 Metros</h4>
+                                    <span class="text-sm bg-green-100 text-green-800 py-1 px-2 rounded-full dark:bg-green-900 dark:text-green-100">Ativo</span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Contratação de empresa para fornecimento de cabos de extensão para microfones com 5 metros de comprimento para eventos públicos.</p>
+                                <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Secretaria de Comunicação Social</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">UASG: 110319</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Valor estimado: R$ 8.500,00</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm">
+                                        <span class="font-semibold">Publicado:</span> 22/01/2025
+                                    </div>
+                                    <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="7" data-title="Extensão para Microfone 5 Metros">Ver detalhes</a>
+                                </div>
+                            </div>
+
+                            <!-- Resultado 8 -->
+                            <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                                <div class="flex justify-between">
+                                    <h4 class="text-primary font-medium mb-1">Extensão Telefônica 5 Metros</h4>
+                                    <span class="text-sm bg-yellow-100 text-yellow-800 py-1 px-2 rounded-full dark:bg-yellow-900 dark:text-yellow-100">Vigente</span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Aquisição de cabos de extensão telefônica RJ11 com 5 metros para o sistema de telefonia do Tribunal de Justiça.</p>
+                                <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Tribunal de Justiça do Estado de SP</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">CNPJ: 51.174.001/0001-93</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Modalidade: Ata de Registro de Preços</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm">
+                                        <span class="font-semibold">Vigência:</span> 01/01/2025 a 31/12/2025
+                                    </div>
+                                    <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="8" data-title="Extensão Telefônica 5 Metros">Ver detalhes</a>
+                                </div>
+                            </div>
+
+                            <!-- Resultado 9 -->
+                            <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                                <div class="flex justify-between">
+                                    <h4 class="text-primary font-medium mb-1">Extensão Pneumática 5 Metros</h4>
+                                    <span class="text-sm bg-red-100 text-red-800 py-1 px-2 rounded-full dark:bg-red-900 dark:text-red-100">Cancelado</span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Aquisição de mangueiras de extensão pneumática de 5 metros para oficinas de manutenção da frota municipal.</p>
+                                <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Prefeitura Municipal de Porto Alegre</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">CNPJ: 92.963.560/0001-60</span>
+                                    <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Valor estimado: R$ 15.200,00</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="text-sm">
+                                        <span class="font-semibold">Cancelado em:</span> 05/01/2025
+                                    </div>
+                                    <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="9" data-title="Extensão Pneumática 5 Metros">Ver detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 flex justify-center">
+                            <nav class="inline-flex rounded-md shadow-sm" aria-label="Paginação">
+                                <a href="#" id="page-prev" class="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-gray-600">Anterior</a>
+                                <a href="#" id="page-1" class="pagination-link active px-3 py-2 bg-primary text-white border border-primary">1</a>
+                                <a href="#" id="page-2" class="pagination-link px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">2</a>
+                                <a href="#" id="page-3" class="pagination-link px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">3</a>
+                                <a href="#" id="page-next" class="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 rounded-r-md hover:bg-gray-50 dark:hover:bg-gray-600">Próxima</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="loading-state" class="hidden text-center py-8">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                    <p class="mt-4 text-lg text-gray-700 dark:text-gray-300 loading-dots">Buscando resultados</p>
+                </div>
+                
+                <div id="initial-state" class="text-center py-8">
+                    <svg class="mx-auto h-20 w-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <p class="mt-4 text-lg text-gray-700 dark:text-gray-300">Digite uma palavra-chave e clique em Pesquisar</p>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Sobre o PNCP</h2>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                    O Portal Nacional de Contratações Públicas (PNCP) é o site oficial em que estão publicadas informações sobre as contratações públicas, criado por uma determinação da Nova Lei de Licitações e Contratos Administrativos (Lei nº 14.133/2021) para manter a transparência.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                    O PNCP é administrado pelo Comitê Gestor da Rede Nacional de Contratações Públicas e garante que os dados de todas as contratações feitas pela União e por governos estaduais e municipais estarão centralizados aqui e disponíveis a todos.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                    <a href="#" id="link-pca" class="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-150">
+                        <div class="mr-4 bg-primary bg-opacity-10 p-3 rounded-full">
+                            <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800 dark:text-white">Plano de Contratações Anual</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Consulte as compras e contratos planejados</p>
+                        </div>
+                    </a>
+                    <a href="#" id="link-panel" class="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-150">
+                        <div class="mr-4 bg-primary bg-opacity-10 p-3 rounded-full">
+                            <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-800 dark:text-white">Painel PNCP em Números</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Estatísticas das contratações públicas</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Plano de Contratações Anual -->
+        <section id="section-pca" class="section">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Plano de Contratações Anual (PCA)</h2>
+                    <button id="back-to-home-pca" class="text-sm text-primary hover:underline flex items-center">
+                        <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Voltar
                     </button>
                 </div>
-                <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                    Pesquise em editais, contratos, atas de registro de preços e outros documentos.
-                </div>
-            </div>
-            
-            <div id="search-results" class="hidden">
-                <div class="border-t border-gray-200 pt-4">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Resultados da pesquisa para "extensão 5 metros"</h3>
-                        <span class="text-sm text-gray-600 dark:text-gray-400">15 resultados encontrados</span>
-                    </div>
+                
+                <div class="mb-6">
+                    <p class="text-gray-700 dark:text-gray-300 mb-4">
+                        O Plano de Contratações Anual (PCA) é um instrumento de governança que consolida todas as contratações que o órgão ou entidade pretende realizar no exercício subsequente.
+                    </p>
                     
-                    <div class="space-y-6">
-                        <!-- Resultado 1 -->
-                        <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
-                            <div class="flex justify-between">
-                                <h4 class="text-primary font-medium mb-1">Aquisição de Extensão Elétrica 5 Metros</h4>
-                                <span class="text-sm bg-green-100 text-green-800 py-1 px-2 rounded-full dark:bg-green-900 dark:text-green-100">Ativo</span>
-                            </div>
-                            <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Pregão Eletrônico para aquisição de extensões elétricas de 5 metros para atender às necessidades do Ministério da Educação.</p>
-                            <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
-                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Ministério da Educação</span>
-                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">UASG: 150002</span>
-                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Modalidade: Pregão Eletrônico</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <div class="text-sm">
-                                    <span class="font-semibold">Publicado:</span> 10/02/2025
-                                </div>
-                                <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="1" data-title="Aquisição de Extensão Elétrica 5 Metros">Ver detalhes</a>
-                            </div>
-                        </div>
-
-                        <!-- Resultado 2 -->
-                        <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
-                            <div class="flex justify-between">
-                                <h4 class="text-primary font-medium mb-1">Contrato nº 2025/123 - Extensão Cabos USB 5 Metros</h4>
-                                <span class="text-sm bg-blue-100 text-blue-800 py-1 px-2 rounded-full dark:bg-blue-900 dark:text-blue-100">Concluído</span>
-                            </div>
-                            <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Contrato para fornecimento de cabos USB com extensão de 5 metros para equipamentos de informática do Tribunal Regional Federal.</p>
-                            <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
-                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Tribunal Regional Federal da 3ª Região</span>
-                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">UASG: 090029</span>
-                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Valor: R$ 12.450,00</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <div class="text-sm">
-                                    <span class="font-semibold">Assinado:</span> 15/01/2025
-                                </div>
-                                <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="2" data-title="Contrato nº 2025/123 - Extensão Cabos USB 5 Metros">Ver detalhes</a>
-                            </div>
-                        </div>
-
-                        <!-- Resultado 3 -->
-                        <div class="border border-gray-200 rounded-md p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
-                            <div class="flex justify-between">
-                                <h4 class="text-primary font-medium mb-1">Ata de Registro de Preços - Extensões Elétricas 5 Metros</h4>
-                                <span class="text-sm bg-yellow-100 text-yellow-800 py-1 px-2 rounded-full dark:bg-yellow-900 dark:text-yellow-100">Vigente</span>
-                            </div>
-                            <p class="text-gray-700 dark:text-gray-300 text-sm mb-2">Ata de Registro de Preços para aquisição de extensões elétricas com 5 metros, cabos PP 3x2,5mm², tomadas 2P+T para a Prefeitura Municipal de São Paulo.</p>
-                            <div class="flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400 mb-2">
-                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Órgão: Prefeitura Municipal de São Paulo</span>
-                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">CNPJ: 05.499.789/0001-98</span>
-                                <span class="bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded">Validade: 12 meses</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <div class="text-sm">
-                                    <span class="font-semibold">Vigência:</span> 20/01/2025 a 20/01/2026
-                                </div>
-                                <a href="#" class="text-primary hover:underline text-sm view-details" data-item-id="3" data-title="Ata de Registro de Preços - Extensões Elétricas 5 Metros">Ver detalhes</a>
-                            </div>
+                    <div class="bg-blue-50 dark:bg-blue-900 p-4 rounded-md text-blue-800 dark:text-blue-100 mb-6">
+                        <div class="flex items-start">
+                            <svg class="h-5 w-5 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <p>Os órgãos e entidades divulgam seus Planos de Contratações Anuais no PNCP até o dia 30 de abril do ano de elaboração, conforme disposto no Decreto nº 10.947/2022.</p>
                         </div>
                     </div>
                     
-                    <div class="mt-6 flex justify-center">
-                        <nav class="inline-flex rounded-md shadow-sm" aria-label="Paginação">
-                            <a href="#" class="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-gray-600">Anterior</a>
-                            <a href="#" class="px-3 py-2 bg-primary text-white border border-primary">1</a>
-                            <a href="#" class="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">2</a>
-                            <a href="#" class="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">3</a>
-                            <a href="#" class="px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 text-gray-600 dark:text-gray-300 rounded-r-md hover:bg-gray-50 dark:hover:bg-gray-600">Próxima</a>
-                        </nav>
+                    <div class="flex flex-col md:flex-row mb-6 gap-4">
+                        <div class="flex-grow">
+                            <label for="pca-search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pesquisar no PCA</label>
+                            <input type="text" id="pca-search" class="w-full px-4 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Digite o item, órgão ou UASG...">
+                        </div>
+                        <div class="flex items-end">
+                            <button id="pca-search-btn" class="bg-primary hover:bg-opacity-90 text-white font-medium py-2 px-6 rounded-md transition duration-200">
+                                Pesquisar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Órgão</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Item</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantidade</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Estimado</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Período Previsto</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Ministério da Educação</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">2025-001</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Extensão elétrica 5 metros</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">500</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 22.750,00</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Fev/2025</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Tribunal Regional Federal</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">2025-057</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Cabo USB extensão 5 metros</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">250</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 12.450,00</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Jan/2025</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Prefeitura Municipal de São Paulo</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">2025-102</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Extensões elétricas 5 metros</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">3.500</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 149.500,00</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Jan/2025</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Ministério da Infraestrutura</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">2025-076</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Cabo HDMI 5 metros</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">120</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 9.600,00</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Jan/2025</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Secretaria de Saúde do Estado de MG</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">2025-032</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Extensão retrátil 5 metros</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">1.900</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 98.750,00</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Dez/2024</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            
-            <div id="loading-state" class="hidden text-center py-8">
-                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-                <p class="mt-4 text-lg text-gray-700 dark:text-gray-300 loading-dots">Buscando resultados</p>
-            </div>
-            
-            <div id="initial-state" class="text-center py-8">
-                <svg class="mx-auto h-20 w-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-                <p class="mt-4 text-lg text-gray-700 dark:text-gray-300">Digite uma palavra-chave e clique em Pesquisar</p>
-            </div>
-        </div>
+        </section>
 
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Sobre o PNCP</h2>
-            <p class="text-gray-700 dark:text-gray-300 mb-4">
-                O Portal Nacional de Contratações Públicas (PNCP) é o site oficial em que estão publicadas informações sobre as contratações públicas, criado por uma determinação da Nova Lei de Licitações e Contratos Administrativos (Lei nº 14.133/2021) para manter a transparência.
-            </p>
-            <p class="text-gray-700 dark:text-gray-300 mb-4">
-                O PNCP é administrado pelo Comitê Gestor da Rede Nacional de Contratações Públicas e garante que os dados de todas as contratações feitas pela União e por governos estaduais e municipais estarão centralizados aqui e disponíveis a todos.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                <a href="#" class="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-150">
-                    <div class="mr-4 bg-primary bg-opacity-10 p-3 rounded-full">
-                        <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        <!-- Seção de Painel PNCP em Números -->
+        <section id="section-panel" class="section">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Painel PNCP em Números</h2>
+                    <button id="back-to-home-panel" class="text-sm text-primary hover:underline flex items-center">
+                        <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
+                        Voltar
+                    </button>
+                </div>
+                
+                <div class="mb-6">
+                    <p class="text-gray-700 dark:text-gray-300 mb-6">
+                        O Painel PNCP em Números apresenta dados estatísticos sobre as contratações públicas realizadas pelo Governo Federal, Estados e Municípios. Aqui você encontra informações atualizadas sobre valores contratados, modalidades de licitação e outros indicadores.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg text-center">
+                            <div class="text-4xl font-bold text-blue-600 dark:text-blue-300 mb-2">R$ 562,3 B</div>
+                            <div class="text-gray-700 dark:text-gray-300">Valor total contratado</div>
+                        </div>
+                        <div class="bg-green-50 dark:bg-green-900/30 p-4 rounded-lg text-center">
+                            <div class="text-4xl font-bold text-green-600 dark:text-green-300 mb-2">1,7 M</div>
+                            <div class="text-gray-700 dark:text-gray-300">Contratos publicados</div>
+                        </div>
+                        <div class="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-lg text-center">
+                            <div class="text-4xl font-bold text-purple-600 dark:text-purple-300 mb-2">9.854</div>
+                            <div class="text-gray-700 dark:text-gray-300">Órgãos publicadores</div>
+                        </div>
                     </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Contratações por Modalidade</h3>
+                        <div class="h-80 flex items-end space-x-2">
+                            <div class="flex flex-col items-center justify-end h-full">
+                                <div class="chart-bar w-16 bg-blue-500 dark:bg-blue-600" style="height: 65%"></div>
+                                <div class="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">Pregão</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">42%</div>
+                            </div>
+                            <div class="flex flex-col items-center justify-end h-full">
+                                <div class="chart-bar w-16 bg-green-500 dark:bg-green-600" style="height: 40%"></div>
+                                <div class="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">Dispensa</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">25%</div>
+                            </div>
+                            <div class="flex flex-col items-center justify-end h-full">
+                                <div class="chart-bar w-16 bg-yellow-500 dark:bg-yellow-600" style="height: 30%"></div>
+                                <div class="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">Concorrência</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">18%</div>
+                            </div>
+                            <div class="flex flex-col items-center justify-end h-full">
+                                <div class="chart-bar w-16 bg-red-500 dark:bg-red-600" style="height: 20%"></div>
+                                <div class="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">Inexigibilidade</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">10%</div>
+                            </div>
+                            <div class="flex flex-col items-center justify-end h-full">
+                                <div class="chart-bar w-16 bg-purple-500 dark:bg-purple-600" style="height: 10%"></div>
+                                <div class="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">Convite</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">3%</div>
+                            </div>
+                            <div class="flex flex-col items-center justify-end h-full">
+                                <div class="chart-bar w-16 bg-indigo-500 dark:bg-indigo-600" style="height: 5%"></div>
+                                <div class="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">Outras</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">2%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div>
-                        <h3 class="font-medium text-gray-800 dark:text-white">Plano de Contratações Anual</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Consulte as compras e contratos planejados</p>
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Valor Total por Esfera (R$ bilhões)</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead>
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Esfera</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">2023</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">2024</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">2025 (até hoje)</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Variação</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-800 dark:text-gray-300">Federal</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">182,7</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">198,5</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">25,3</td>
+                                        <td class="px-4 py-3 text-sm text-green-600 dark:text-green-400">+8,6%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-800 dark:text-gray-300">Estadual</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">156,4</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">165,2</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">22,1</td>
+                                        <td class="px-4 py-3 text-sm text-green-600 dark:text-green-400">+5,6%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-800 dark:text-gray-300">Municipal</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">193,2</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">198,6</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">15,9</td>
+                                        <td class="px-4 py-3 text-sm text-green-600 dark:text-green-400">+2,8%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </a>
-                <a href="#" class="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition duration-150">
-                    <div class="mr-4 bg-primary bg-opacity-10 p-3 rounded-full">
-                        <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-medium text-gray-800 dark:text-white">Painel PNCP em Números</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Estatísticas das contratações públicas</p>
-                    </div>
-                </a>
+                </div>
             </div>
-        </div>
+        </section>
 
         <!-- Modal de Detalhes -->
         <div id="details-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
@@ -278,6 +630,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const searchButton = document.getElementById('search-button');
             const searchInput = document.getElementById('search-input');
+            const searchResultsTitle = document.getElementById('search-results-title');
             const initialState = document.getElementById('initial-state');
             const loadingState = document.getElementById('loading-state');
             const searchResults = document.getElementById('search-results');
@@ -286,6 +639,136 @@
             const modalContent = document.getElementById('modal-content');
             const closeModal = document.getElementById('close-modal');
             const closeModalBtn = document.getElementById('close-modal-btn');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            const resultsCount = document.getElementById('results-count');
+            
+            // Paginação
+            const paginationLinks = document.querySelectorAll('.pagination-link');
+            const prevPageLink = document.getElementById('page-prev');
+            const nextPageLink = document.getElementById('page-next');
+            const resultPages = document.querySelectorAll('.results-page');
+            let currentPage = 1;
+            const totalPages = resultPages.length;
+            
+            // Elementos de navegação
+            const linkPca = document.getElementById('link-pca');
+            const linkPanel = document.getElementById('link-panel');
+            const backToHomePca = document.getElementById('back-to-home-pca');
+            const backToHomePanel = document.getElementById('back-to-home-panel');
+            const sectionHome = document.getElementById('section-home');
+            const sectionPca = document.getElementById('section-pca');
+            const sectionPanel = document.getElementById('section-panel');
+            
+            // Animação para o gráfico no painel
+            function animateChartBars() {
+                const bars = document.querySelectorAll('.chart-bar');
+                bars.forEach(bar => {
+                    const height = bar.style.height;
+                    bar.style.height = '0';
+                    setTimeout(() => {
+                        bar.style.height = height;
+                    }, 100);
+                });
+            }
+            
+            // Função para mostrar uma seção
+            function showSection(sectionId) {
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(sectionId).classList.add('active');
+                
+                if (sectionId === 'section-panel') {
+                    setTimeout(animateChartBars, 100);
+                }
+                
+                // Scroll para o topo
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Função para atualizar a paginação
+            function updatePagination() {
+                resultPages.forEach((page, index) => {
+                    if (index + 1 === currentPage) {
+                        page.classList.remove('hidden');
+                    } else {
+                        page.classList.add('hidden');
+                    }
+                });
+                
+                paginationLinks.forEach((link, index) => {
+                    if (index + 1 === currentPage) {
+                        link.classList.add('bg-primary', 'text-white', 'border-primary');
+                        link.classList.remove('bg-white', 'dark:bg-gray-700', 'border-gray-300', 'text-gray-600', 'dark:text-gray-300', 'hover:bg-gray-50', 'dark:hover:bg-gray-600');
+                    } else {
+                        link.classList.remove('bg-primary', 'text-white', 'border-primary');
+                        link.classList.add('bg-white', 'dark:bg-gray-700', 'border-gray-300', 'text-gray-600', 'dark:text-gray-300', 'hover:bg-gray-50', 'dark:hover:bg-gray-600');
+                    }
+                });
+                
+                // Atualiza os botões de navegação anterior/próxima
+                if (currentPage === 1) {
+                    prevPageLink.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    prevPageLink.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+                
+                if (currentPage === totalPages) {
+                    nextPageLink.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    nextPageLink.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            }
+            
+            // Eventos de paginação
+            paginationLinks.forEach((link, index) => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentPage = index + 1;
+                    updatePagination();
+                });
+            });
+            
+            prevPageLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    updatePagination();
+                }
+            });
+            
+            nextPageLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updatePagination();
+                }
+            });
+            
+            // Eventos de navegação
+            linkPca.addEventListener('click', function(e) {
+                e.preventDefault();
+                showSection('section-pca');
+            });
+            
+            linkPanel.addEventListener('click', function(e) {
+                e.preventDefault();
+                showSection('section-panel');
+            });
+            
+            backToHomePca.addEventListener('click', function(e) {
+                e.preventDefault();
+                showSection('section-home');
+            });
+            
+            backToHomePanel.addEventListener('click', function(e) {
+                e.preventDefault();
+                showSection('section-home');
+            });
             
             // Dados simulados para os detalhes dos itens
             const itemDetails = {
@@ -549,6 +1032,613 @@
                             </div>
                         </div>
                     `
+                },
+                "4": {
+                    title: "Cabo de Extensão 5 Metros para Projetores",
+                    status: "Ativo",
+                    description: "Licitação para aquisição de cabos de extensão HDMI de 5 metros para uso em salas de reunião do Ministério da Infraestrutura.",
+                    fullDetails: `
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Informações Gerais</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Número do Processo</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">25000.076923/2024-99</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">UASG</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">330010</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Modalidade</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Dispensa de Licitação</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Fundamento Legal</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Art. 75, Inciso II, Lei 14.133/2021</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Status</p>
+                                        <p class="font-medium text-green-600 dark:text-green-400">Ativo</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Data de Publicação</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">05/01/2025</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Valor Total</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">R$ 9.600,00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Detalhes do Item</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Item</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantidade</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Unitário</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">1</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Cabo HDMI 2.0 de 5 metros, Ultra HD 4K, conectores banhados a ouro</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">120</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 80,00</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 9.600,00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Fornecedor</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Razão Social</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">DigiTech Cabos e Acessórios LTDA</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">CNPJ</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">15.623.489/0001-22</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Porte da Empresa</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Pequeno Porte</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                "5": {
+                    title: "Extensão Retrátil 5 Metros - Hospitais",
+                    status: "Ativo",
+                    description: "Aquisição de extensões elétricas retráteis de 5 metros para equipamentos médicos nos hospitais da rede pública estadual.",
+                    fullDetails: `
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Informações Gerais</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Número da Licitação</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">PE 087/2024</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Órgão</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Secretaria de Saúde do Estado de MG</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">CNPJ</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">18.715.516/0001-88</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Modalidade</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Pregão Eletrônico</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Status</p>
+                                        <p class="font-medium text-green-600 dark:text-green-400">Ativo</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Data de Abertura</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">15/01/2025 às 09:00</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Data de Publicação</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">18/12/2024</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Objeto</h4>
+                                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                                    Aquisição de extensões elétricas retráteis com 5 metros de comprimento para uso em equipamentos médicos nos hospitais da rede pública estadual, conforme especificações e condições estabelecidas no Termo de Referência.
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Especificações Técnicas</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Item</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantidade</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Unitário</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">1</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Extensão elétrica retrátil 5 metros, cabo PP 3x2,5mm², 3 tomadas 2P+T 10A, dispositivo anti-enroscamento, cor branca, certificação INMETRO</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">1.900</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 52,00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Locais de Entrega</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                                    <li>Hospital João XXIII - Belo Horizonte/MG</li>
+                                    <li>Hospital Regional de Betim - Betim/MG</li>
+                                    <li>Hospital Regional Antônio Dias - Patos de Minas/MG</li>
+                                    <li>Hospital Regional de Barbacena - Barbacena/MG</li>
+                                    <li>Hospital Infantil João Paulo II - Belo Horizonte/MG</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                "6": {
+                    title: "Suporte para Extensão Elétrica 5 Metros",
+                    status: "Concluído",
+                    description: "Aquisição de suportes para organização de extensões elétricas de 5 metros para uso nos laboratórios da Universidade Federal.",
+                    fullDetails: `
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Informações da Compra</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Número do Pregão</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">PE 123/2024</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Órgão</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Universidade Federal de Santa Catarina</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">UASG</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">153163</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Modalidade</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Pregão Eletrônico</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Status</p>
+                                        <p class="font-medium text-blue-600 dark:text-blue-400">Concluído</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Data de Homologação</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">05/11/2024</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Valor Total</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">R$ 14.850,00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Itens Adquiridos</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Item</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantidade</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Unitário</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Fornecedor</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">1</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Suporte de parede para organização de extensões elétricas, material plástico ABS, compatível com extensões de 5 metros, cor branca</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">350</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 18,50</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">LabEquip Distribuidora LTDA</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">2</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Organizador portátil para extensões elétricas de 5 metros, material polipropileno, com trava anti-desenrolamento, cor preta</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">250</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 25,50</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Suprimentos Tech Brasil EIRELI</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Cronograma de Entrega</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Etapa</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Data</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Emissão da Nota de Empenho</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">10/11/2024</td>
+                                                <td class="px-4 py-3 text-sm">
+                                                    <span class="bg-green-100 text-green-800 px-2 py-1 text-xs rounded-full dark:bg-green-900 dark:text-green-100">Concluído</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Entrega do Item 1</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">25/11/2024</td>
+                                                <td class="px-4 py-3 text-sm">
+                                                    <span class="bg-green-100 text-green-800 px-2 py-1 text-xs rounded-full dark:bg-green-900 dark:text-green-100">Concluído</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Entrega do Item 2</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">05/12/2024</td>
+                                                <td class="px-4 py-3 text-sm">
+                                                    <span class="bg-green-100 text-green-800 px-2 py-1 text-xs rounded-full dark:bg-green-900 dark:text-green-100">Concluído</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Pagamento</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">20/12/2024</td>
+                                                <td class="px-4 py-3 text-sm">
+                                                    <span class="bg-green-100 text-green-800 px-2 py-1 text-xs rounded-full dark:bg-green-900 dark:text-green-100">Concluído</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                "7": {
+                    title: "Extensão para Microfone 5 Metros",
+                    status: "Ativo",
+                    fullDetails: `
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Informações da Compra</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Número do Processo</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">00110.000123/2025-45</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Órgão</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Secretaria de Comunicação Social</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">UASG</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">110319</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Modalidade</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Cotação Eletrônica</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Status</p>
+                                        <p class="font-medium text-green-600 dark:text-green-400">Ativo</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Data de Publicação</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">22/01/2025</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Data de Encerramento</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">30/01/2025</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Valor Estimado</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">R$ 8.500,00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Descrição do Objeto</h4>
+                                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                                    Contratação de empresa para fornecimento de cabos de extensão para microfones com 5 metros de comprimento para uso em eventos públicos e coletivas de imprensa, conforme especificações detalhadas no Termo de Referência.
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Especificações</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Item</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantidade</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Unitário Est.</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">1</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Cabo XLR macho para XLR fêmea, 5 metros, blindado, para microfone profissional</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">50</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 85,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">2</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Cabo P10 para P10, 5 metros, para conexão de instrumentos e equipamentos de áudio</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">30</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 65,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">3</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Cabo de extensão para microfone de lapela, 5 metros, conector mini-XLR para XLR</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">20</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 110,00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Documentos</h4>
+                                <ul class="space-y-2">
+                                    <li class="flex items-center space-x-2">
+                                        <svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <a href="#" class="text-primary hover:underline">Termo_de_Referencia_Extensoes_Microfone.pdf</a>
+                                    </li>
+                                    <li class="flex items-center space-x-2">
+                                        <svg class="h-5 w-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <a href="#" class="text-primary hover:underline">Modelo_Proposta.docx</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                "8": {
+                    title: "Extensão Telefônica 5 Metros",
+                    status: "Vigente",
+                    fullDetails: `
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Informações da Ata</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Número da Ata</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">ARP 012/2025</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Órgão</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Tribunal de Justiça do Estado de SP</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">CNPJ</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">51.174.001/0001-93</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Modalidade</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Pregão Eletrônico</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Vigência</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">01/01/2025 a 31/12/2025</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Status</p>
+                                        <p class="font-medium text-yellow-600 dark:text-yellow-400">Vigente</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Fornecedor</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Razão Social</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">TeleCom Equipamentos EIRELI</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">CNPJ</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">22.654.987/0001-76</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Representante Legal</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Ricardo Mendes Silva</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Porte da Empresa</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Microempresa</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Itens Registrados</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Item</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantidade</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Unitário</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">1</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Cabo de extensão telefônica RJ11 com 5 metros, cor bege</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">2.500</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 8,50</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 21.250,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">2</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Cabo de extensão telefônica RJ11 espiral com 5 metros, cor preta</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">1.000</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 12,30</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 12.300,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">3</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Adaptador divisor RJ11 para extensão telefônica, 1 entrada e 2 saídas</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">1.200</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 6,75</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 8.100,00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Condições de Entrega</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                                    <li>Os itens deverão ser entregues no prazo máximo de 15 dias corridos após o recebimento da Nota de Empenho.</li>
+                                    <li>Local de entrega: Almoxarifado Central do Tribunal de Justiça - Av. Brigadeiro Faria Lima, 1234, São Paulo/SP.</li>
+                                    <li>Horário de recebimento: de segunda a sexta-feira, das 8h às 17h.</li>
+                                    <li>Os produtos deverão ter garantia mínima de 12 meses contra defeitos de fabricação.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `
+                },
+                "9": {
+                    title: "Extensão Pneumática 5 Metros",
+                    status: "Cancelado",
+                    fullDetails: `
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Informações da Licitação</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Número do Processo</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">001.254789/2024-55</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Órgão</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Prefeitura Municipal de Porto Alegre</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">CNPJ</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">92.963.560/0001-60</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Modalidade</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">Pregão Eletrônico</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Número do Pregão</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">PE 005/2025</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Data de Publicação</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">20/12/2024</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Status</p>
+                                        <p class="font-medium text-red-600 dark:text-red-400">Cancelado</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Data do Cancelamento</p>
+                                        <p class="font-medium text-gray-800 dark:text-white">05/01/2025</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Objeto da Contratação</h4>
+                                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                                    Aquisição de mangueiras de extensão pneumática de 5 metros para compressores de ar e ferramentas pneumáticas utilizadas nas oficinas de manutenção da frota municipal, conforme especificações contidas no Termo de Referência.
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Motivo do Cancelamento</h4>
+                                <div class="bg-red-50 dark:bg-red-900/30 p-4 rounded-md text-red-800 dark:text-red-300">
+                                    <p>O pregão foi cancelado devido a inconsistências nas especificações técnicas dos itens no Termo de Referência. Foi identificada a necessidade de revisão das especificações para garantir a adequação aos equipamentos em uso nas oficinas municipais. Uma nova licitação será realizada após a correção das especificações.</p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Itens (Cancelados)</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Item</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Quantidade</th>
+                                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Estimado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">1</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Mangueira espiral para ar comprimido, 5 metros, 1/4", com conexões rápidas</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">50</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 85,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">2</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Mangueira reforçada para ar comprimido, 5 metros, 3/8", com conexões</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">40</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 110,00</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">3</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">Kit de extensão pneumática 5 metros com engates rápidos e regulador de pressão</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">30</td>
+                                                <td class="px-4 py-3 text-sm text-gray-800 dark:text-gray-300">R$ 150,00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Previsão Nova Licitação</h4>
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    A previsão para publicação do novo edital, com especificações técnicas revisadas, é para o final de fevereiro de 2025. Os interessados devem acompanhar as publicações no Portal Nacional de Contratações Públicas.
+                                </p>
+                            </div>
+                        </div>
+                    `
                 }
             };
             
@@ -570,12 +1660,13 @@
             }
             
             // Adiciona evento de clique aos links "Ver detalhes"
-            document.querySelectorAll('.view-details').forEach(link => {
-                link.addEventListener('click', function(e) {
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('view-details') || e.target.closest('.view-details')) {
                     e.preventDefault();
-                    const itemId = this.getAttribute('data-item-id');
+                    const link = e.target.classList.contains('view-details') ? e.target : e.target.closest('.view-details');
+                    const itemId = link.getAttribute('data-item-id');
                     showItemDetails(itemId);
-                });
+                }
             });
             
             // Eventos para fechar o modal
@@ -594,20 +1685,69 @@
                 }
             });
             
-            // Configura a busca
+            // Função para pesquisar
+            function performSearch(searchTerm) {
+                initialState.style.display = 'none';
+                loadingState.style.display = 'block';
+                searchResults.style.display = 'none';
+                
+                // Atualiza o título dos resultados da pesquisa
+                searchResultsTitle.textContent = `Resultados da pesquisa para "${searchTerm}"`;
+                
+                // Simula o tempo de busca
+                setTimeout(function() {
+                    loadingState.style.display = 'none';
+                    searchResults.style.display = 'block';
+                    
+                    // Reseta a paginação para a primeira página
+                    currentPage = 1;
+                    updatePagination();
+                    
+                    // Determina o número de resultados com base no termo de pesquisa
+                    let numResults;
+                    if (searchTerm.toLowerCase().includes('extensão') && searchTerm.toLowerCase().includes('5 metros')) {
+                        numResults = '15';
+                    } else if (searchTerm.toLowerCase().includes('extensão') || searchTerm.toLowerCase().includes('cabo')) {
+                        numResults = '42';
+                    } else {
+                        numResults = '8';
+                    }
+                    
+                    resultsCount.textContent = `${numResults} resultados encontrados`;
+                }, 1500);
+            }
+            
+            // Configura o botão de pesquisa
             searchButton.addEventListener('click', function() {
                 const searchTerm = searchInput.value.trim();
-                
                 if (searchTerm) {
-                    initialState.style.display = 'none';
-                    loadingState.style.display = 'block';
-                    searchResults.style.display = 'none';
-                    
-                    // Simula o tempo de busca
-                    setTimeout(function() {
-                        loadingState.style.display = 'none';
-                        searchResults.style.display = 'block';
-                    }, 1500);
+                    performSearch(searchTerm);
+                }
+            });
+            
+            // Configura a busca ao pressionar Enter
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const searchTerm = searchInput.value.trim();
+                    if (searchTerm) {
+                        performSearch(searchTerm);
+                    }
+                }
+            });
+            
+            // Configura a busca no Plano de Contratações Anual
+            const pcaSearchBtn = document.getElementById('pca-search-btn');
+            const pcaSearch = document.getElementById('pca-search');
+            
+            pcaSearchBtn.addEventListener('click', function() {
+                // Simula uma busca (não faz nada real, apenas para demonstração)
+                alert('Pesquisa realizada no Plano de Contratações Anual');
+            });
+            
+            pcaSearch.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    // Simula uma busca (não faz nada real, apenas para demonstração)
+                    alert('Pesquisa realizada no Plano de Contratações Anual');
                 }
             });
             
